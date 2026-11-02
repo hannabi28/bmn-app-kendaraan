@@ -316,7 +316,8 @@
     .dashboard-lower { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(260px, .7fr); gap: 16px; margin-top: 16px; }
     .activity, .stats-card { border: 1px solid #dce9f4; border-radius: 9px; background: #fff; box-shadow: 0 5px 16px #07539a0d; }
     .dash-heading { display: flex; align-items: center; justify-content: space-between; padding: 17px 19px 12px; color: #123e72; font: bold 15px Arial, sans-serif; }
-    .dash-heading span { color: #126ce2; font-size: 10px; }
+    .dash-heading button { padding: 4px 0; border: 0; background: transparent; color: #126ce2; font: 600 10px Arial, sans-serif; }
+    .dash-heading button:hover { text-decoration: underline; }
     .activity table { width: 100%; border-collapse: collapse; color: #57728f; font: 11px Arial, sans-serif; }
     .activity th, .activity td { padding: 10px 15px; border-top: 1px solid #edf3f8; text-align: left; }
     .activity th { color: #7891aa; font-size: 10px; font-weight: 600; }
@@ -327,6 +328,27 @@
     .stat-lines { display: grid; gap: 8px; padding: 0 20px; color: #456989; font: 11px Arial, sans-serif; }
     .stat-lines span { display: flex; justify-content: space-between; }
     .stat-lines b { color: #126ce2; }
+    .dashboard-dialog { width: min(760px, calc(100% - 24px)); max-height: min(85vh, 760px); padding: 0; border: 0; border-radius: 12px; color: var(--ink); box-shadow: 0 18px 60px #10243d55; }
+    .dashboard-dialog::backdrop { background: #10243d99; }
+    .dialog-content { padding: 22px; }
+    .dialog-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; padding-bottom: 13px; border-bottom: 1px solid var(--line); }
+    .dialog-heading h2 { margin: 0 0 5px; color: #123e72; font: bold 20px Arial, sans-serif; }
+    .dialog-heading p { margin: 0; color: var(--muted); font: 12px/1.5 Arial, sans-serif; }
+    .dialog-close { flex: 0 0 auto; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--ink); font-size: 20px; }
+    .dialog-list { display: grid; gap: 12px; max-height: 62vh; overflow-y: auto; }
+    .history-item { padding: 14px; border: 1px solid #dce9f4; border-radius: 8px; background: #fff; }
+    .history-item-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 14px; margin-bottom: 8px; color: #123e72; font: bold 13px Arial, sans-serif; }
+    .history-item-meta { margin-bottom: 10px; color: var(--muted); font: 11px/1.5 Arial, sans-serif; }
+    .history-item dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; margin: 0; }
+    .history-item dl div { min-width: 0; }
+    .history-item dt { color: #7891aa; font: 10px Arial, sans-serif; }
+    .history-item dd { margin: 3px 0 0; color: #344054; font: 12px/1.45 Arial, sans-serif; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .stats-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .stats-detail { padding: 12px; border: 1px solid #dce9f4; border-radius: 8px; background: #f8fbff; }
+    .stats-detail span { display: block; color: #66809d; font: 11px Arial, sans-serif; }
+    .stats-detail strong { display: block; margin-top: 5px; color: #126ce2; font: bold 22px Arial, sans-serif; }
+    .empty-history { padding: 25px 14px; border: 1px dashed #cbd5e1; border-radius: 8px; color: var(--muted); text-align: center; font: 13px/1.6 Arial, sans-serif; }
+    .history-note { margin: 12px 0 0; color: var(--muted); font: 11px/1.5 Arial, sans-serif; }
     .dashboard-panel + .panel { margin-top: 28px; }
     .page > .panel { margin-left: 0; }
 
@@ -431,6 +453,8 @@
       .signature-preview { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       canvas { max-width: 100%; }
       .next-document { min-width: 0; padding: 15px; }
+      .dialog-content { padding: 16px; }
+      .history-item dl, .stats-detail-grid { grid-template-columns: minmax(0, 1fr); }
     }
     @media (max-width: 380px) {
       .dashboard-page { padding-right: 10px; padding-left: 10px; }
@@ -560,9 +584,17 @@
         <article class="dash-card"><div class="dash-card-icon">&lt;</div><h3>Pengembalian</h3><p>Kembalikan BMN yang tidak digunakan atau tidak layak.</p><button type="button" class="tab" data-panel="pengembalian" aria-label="Buka pengembalian">&gt;</button></article>
       </div>
       <div class="dashboard-lower">
-        <section class="activity"><div class="dash-heading">Riwayat Terbaru <span>Lihat Semua</span></div><table><thead><tr><th>No</th><th>Jenis</th><th>Nomor Pengajuan</th><th>Tanggal</th><th>Status</th></tr></thead><tbody><tr><td>1</td><td>Pengajuan</td><td>BMN-2025-0012</td><td>12 Apr 2025</td><td><span class="status-pill">Dalam Proses</span></td></tr><tr><td>2</td><td>Perpanjangan</td><td>PRJ-2025-0008</td><td>10 Apr 2025</td><td><span class="status-pill" style="background:#d8f7e7;color:#087443">Disetujui</span></td></tr><tr><td>3</td><td>Pengembalian</td><td>KMB-2025-0005</td><td>8 Apr 2025</td><td><span class="status-pill" style="background:#ffe0e0;color:#b42318">Ditolak</span></td></tr><tr><td>4</td><td>Pengajuan</td><td>BMN-2025-0011</td><td>5 Apr 2025</td><td><span class="status-pill" style="background:#d8f7e7;color:#087443">Disetujui</span></td></tr></tbody></table></section>
-        <aside class="stats-card"><div class="dash-heading">Statistik BMN <span>Lihat Detail</span></div><div class="stat-total">24<small>Total BMN</small></div><div class="stat-lines"><span>Aktif <b>18</b></span><span>Perpanjangan <b style="color:#e4b900">4</b></span><span>Pengembalian <b>2</b></span></div></aside>
+        <section class="activity">
+          <div class="dash-heading">Riwayat Terbaru <button type="button" id="showAllHistory">Lihat Semua</button></div>
+          <table><thead><tr><th>No</th><th>Jenis</th><th>Referensi</th><th>Tanggal</th><th>Status</th></tr></thead><tbody id="activityHistoryBody"></tbody></table>
+        </section>
+        <aside class="stats-card">
+          <div class="dash-heading">Statistik Dokumen BMN <button type="button" id="showStatsDetails">Lihat Detail</button></div>
+          <div class="stat-total" id="totalDocuments">0<small>Total Dokumen</small></div>
+          <div class="stat-lines" id="dashboardStats"></div>
+        </aside>
       </div>
+      <p class="history-note dashboard-sync-note">Data dashboard diperbarui saat formulir atau berita acara disimpan. Penyimpanan saat ini hanya di browser/perangkat ini; agar seluruh pegawai melihat data yang sama, aplikasi perlu dihubungkan ke database online.</p>
     </section>
 
     <section class="panel" id="peminjaman">
@@ -735,6 +767,29 @@
   </main>
   </div>
 
+  <dialog class="dashboard-dialog" id="historyDialog" aria-labelledby="historyDialogTitle">
+    <div class="dialog-content">
+      <div class="dialog-heading">
+        <div><h2 id="historyDialogTitle">Semua Riwayat</h2><p>Rincian formulir dan berita acara yang telah disimpan.</p></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Tutup">&times;</button>
+      </div>
+      <div class="dialog-list" id="historyDialogList"></div>
+      <p class="history-note">Riwayat pada versi ini tersimpan di browser/perangkat ini, belum dibagikan ke perangkat pegawai lain.</p>
+    </div>
+  </dialog>
+  <dialog class="dashboard-dialog" id="statsDialog" aria-labelledby="statsDialogTitle">
+    <div class="dialog-content">
+      <div class="dialog-heading">
+        <div><h2 id="statsDialogTitle">Rincian Statistik</h2><p>Jumlah berdasarkan formulir dan berita acara yang berhasil disimpan.</p></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Tutup">&times;</button>
+      </div>
+      <div class="stats-detail-grid" id="statsDialogGrid"></div>
+      <h3 class="section-title">Data tersimpan</h3>
+      <div class="dialog-list" id="statsDialogList"></div>
+      <p class="history-note">Angka ini menghitung dokumen tersimpan, bukan persetujuan atau jumlah kendaraan yang telah diverifikasi.</p>
+    </div>
+  </dialog>
+
   <script>
     const STORAGE_KEY = 'bmn-user-form-v1';
     const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
@@ -846,9 +901,121 @@
     }));
 
     function setStatus(id, message) { const element = $('#' + id); element.textContent = message; setTimeout(() => { element.textContent = ''; }, 3500); }
+    const historyCategories = [
+      { key: 'peminjaman', label: 'Permohonan Peminjaman' },
+      { key: 'perpanjangan', label: 'Perpanjangan' },
+      { key: 'pengembalian', label: 'Pengembalian' },
+      { key: 'bast', label: 'Berita Acara' }
+    ];
+    function createHistoryRecord(target, data) {
+      const isReturnBast = target === 'document' && data.jenisBerita === 'pengembalian';
+      const category = target === 'loan' ? 'peminjaman'
+        : target === 'extension' ? 'perpanjangan'
+          : target === 'returnForm' ? 'pengembalian'
+            : isReturnBast ? 'bast-pengembalian' : 'bast-peminjaman';
+      const labels = {
+        peminjaman: 'Permohonan Peminjaman',
+        perpanjangan: 'Permohonan Perpanjangan',
+        pengembalian: 'Formulir Pengembalian',
+        'bast-peminjaman': 'BAST Peminjaman',
+        'bast-pengembalian': 'BAST Pengembalian'
+      };
+      return {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        category,
+        label: labels[category],
+        reference: data.nomorBerita || data.nomorPeminjaman || data.nomorPeminjamanKembali
+          || data.nopol || data.nopolBerita || data.nopolPengembalian || '',
+        savedAt: new Date().toISOString(),
+        status: 'Tersimpan',
+        data: { ...data }
+      };
+    }
+    function getHistory() {
+      return Array.isArray(state.history) ? state.history : [];
+    }
+    function historyDate(record) {
+      const date = new Date(record.savedAt);
+      return Number.isNaN(date.getTime()) ? 'Tanggal tidak tersedia' : date.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+    function getRecordDetails(record) {
+      const data = record.data && typeof record.data === 'object' ? record.data : {};
+      const labels = new Map();
+      document.querySelectorAll('label[for]').forEach((label) => {
+        const field = document.getElementById(label.htmlFor);
+        if (field && field.name) labels.set(field.name, label.textContent.trim());
+      });
+      return Object.entries(data)
+        .filter(([, value]) => value !== null && value !== undefined && String(value).trim() !== '')
+        .map(([key, value]) => `<div><dt>${escapeHtml(labels.get(key) || key)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+        .join('');
+    }
+    function renderHistoryCards(records) {
+      if (!records.length) return '<div class="empty-history">Belum ada formulir atau berita acara yang disimpan.</div>';
+      return [...records].reverse().map((record) => `
+        <article class="history-item">
+          <div class="history-item-heading"><span>${escapeHtml(record.label || 'Dokumen')}</span><span class="status-pill">${escapeHtml(record.status || 'Tersimpan')}</span></div>
+          <div class="history-item-meta">${escapeHtml(historyDate(record))}${record.reference ? ` · Referensi: ${escapeHtml(record.reference)}` : ''}</div>
+          ${getRecordDetails(record) ? `<dl>${getRecordDetails(record)}</dl>` : '<p class="history-note">Rincian formulir tidak tersedia.</p>'}
+        </article>`).join('');
+    }
+    function renderDashboard() {
+      const records = getHistory();
+      const sorted = [...records].sort((a, b) => new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime());
+      const recentBody = $('#activityHistoryBody');
+      recentBody.innerHTML = sorted.length
+        ? sorted.slice(0, 4).map((record, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(record.label || 'Dokumen')}</td><td>${escapeHtml(record.reference || '—')}</td><td>${escapeHtml(historyDate(record))}</td><td><span class="status-pill">${escapeHtml(record.status || 'Tersimpan')}</span></td></tr>`).join('')
+        : '<tr><td colspan="5"><div class="empty-history">Belum ada data tersimpan.</div></td></tr>';
+
+      $('#totalDocuments').innerHTML = `${records.length}<small>Total Dokumen</small>`;
+      const counts = {
+        peminjaman: records.filter((record) => record.category === 'peminjaman').length,
+        perpanjangan: records.filter((record) => record.category === 'perpanjangan').length,
+        pengembalian: records.filter((record) => record.category === 'pengembalian').length,
+        bast: records.filter((record) => record.category === 'bast-peminjaman' || record.category === 'bast-pengembalian').length
+      };
+      $('#dashboardStats').innerHTML = historyCategories.map(({ key, label }) => `<span>${escapeHtml(label)} <b>${counts[key]}</b></span>`).join('');
+      $('#historyDialogList').innerHTML = renderHistoryCards(sorted);
+      $('#statsDialogGrid').innerHTML = [
+        ['Total Dokumen', records.length],
+        ...historyCategories.map(({ key, label }) => [label, counts[key]])
+      ].map(([label, count]) => `<div class="stats-detail"><span>${escapeHtml(label)}</span><strong>${count}</strong></div>`).join('');
+      $('#statsDialogList').innerHTML = renderHistoryCards(sorted);
+    }
+    $('#showAllHistory').addEventListener('click', () => $('#historyDialog').showModal());
+    $('#showStatsDetails').addEventListener('click', () => $('#statsDialog').showModal());
+    document.querySelectorAll('[data-close-dialog]').forEach((button) => button.addEventListener('click', () => button.closest('dialog').close()));
+    document.querySelectorAll('.dashboard-dialog').forEach((dialog) => dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    }));
+    window.addEventListener('storage', (event) => {
+      if (event.key !== STORAGE_KEY || !event.newValue) return;
+      const updatedState = JSON.parse(event.newValue);
+      state.history = Array.isArray(updatedState.history) ? updatedState.history : [];
+      renderDashboard();
+    });
     function saveForm(formId, target, statusId, message) {
       const form = $('#' + formId);
-      form.addEventListener('submit', (event) => { event.preventDefault(); state[target] = formData(form); if (target === 'loan' && $('#loanSignature')) state.loanSignature = croppedSignature($('#loanSignature')); if (target === 'extension' && $('#extensionSignatureOne')) { state.extensionSignatures = state.extensionSignatures || {}; state.extensionSignatures.extensionOne = croppedSignature($('#extensionSignatureOne')); state.extensionSignatures.extensionTwo = croppedSignature($('#extensionSignatureTwo')); } if (target === 'returnForm' && $('#returnSignature')) state.returnSignature = croppedSignature($('#returnSignature')); save(); setStatus(statusId, message); if (target === 'document') renderPreview(); if (target === 'loan') renderLoanPreview(); if (target === 'extension') renderExtensionPreview(); if (target === 'returnForm') renderReturnPreview(); });
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        state[target] = formData(form);
+        if (target === 'loan' && $('#loanSignature')) state.loanSignature = croppedSignature($('#loanSignature'));
+        if (target === 'extension' && $('#extensionSignatureOne')) {
+          state.extensionSignatures = state.extensionSignatures || {};
+          state.extensionSignatures.extensionOne = croppedSignature($('#extensionSignatureOne'));
+          state.extensionSignatures.extensionTwo = croppedSignature($('#extensionSignatureTwo'));
+        }
+        if (target === 'returnForm' && $('#returnSignature')) state.returnSignature = croppedSignature($('#returnSignature'));
+        state.history = getHistory();
+        state.history.push(createHistoryRecord(target, state[target]));
+        save();
+        renderDashboard();
+        setStatus(statusId, message);
+        if (target === 'document') renderPreview();
+        if (target === 'loan') renderLoanPreview();
+        if (target === 'extension') renderExtensionPreview();
+        if (target === 'returnForm') renderReturnPreview();
+      });
     }
     saveForm('loanForm', 'loan', 'loanStatus', 'Permohonan tersimpan di perangkat ini.');
     saveForm('extensionForm', 'extension', 'extensionStatus', 'Permohonan perpanjangan tersimpan.');
@@ -1147,6 +1314,7 @@
     renderExtensionPreview();
     renderReturnPreview();
     renderPreview();
+    renderDashboard();
   </script>
 </body>
 </html>
